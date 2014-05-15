@@ -1,0 +1,8 @@
+name = Trebutra
+description = "Trello Bug Tracker connects Trello to a form on Drupal for issue and bug reporting."
+core = 7.x
+
+
+files[] = tagadelic.module
+
+configure = admin/config/content/trebutra

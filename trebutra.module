@@ -1,0 +1,36 @@
+<?php
+/**
+* @file trebutra.module
+* Trello Bug Tracker
+* @author Matt Withoos <mattwithoos@gmail.com>
+* @link http://mattwithoos.com
+*/
+
+function trebutra_help($path, $arg) {
+  switch ($path) {
+    case "admin/help#trebutra":
+      return '<p>' . t("Integrates Trello as a Bug Tracker") . '</p>';
+      break;
+  }
+}
+
+function trebutra_block_info() {
+  $blocks['trebutra'] = array(
+    // The name that will appear in the block list.
+    'info' => t('Trello Bug Tracker'),
+    // Default setting.
+    'cache' => DRUPAL_CACHE_PER_ROLE,
+  );
+  return $blocks;
+}
+
+function trebutra_block_view($delta = '') {
+  switch ($delta) {
+    case 'trebutra':
+      $block['subject'] = t('Trebutra');
+      if (user_access('access content')) {
+          $block['content'] = $trebutra_fields // need to create this variable!
+      }
+    return $block;
+  }
+}
