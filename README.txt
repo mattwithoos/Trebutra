@@ -34,3 +34,11 @@ None.
 
 * Drupal 7.x
 * cURL enabled in PHP
+
+-- CONTACT --
+
+Current maintainers:
+* Matt Withoos (MattWithoos) - https://drupal.org/user/2763503
+
+This project has been sponsored by:
+* Collabforge, Collaboration Experts in Melbourne - http://www.collabforge.com
