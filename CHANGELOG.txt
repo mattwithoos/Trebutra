@@ -1,0 +1,7 @@
+Trebutra 7.x-1.1, 2014-05-16
+------------------------------
+Stable release of Trebutra module, for Drupal 7.x
+
+Trebutra 7.x-1.0, 2014-05-15
+------------------------------
+Initial release of Trebutra module, unstable
