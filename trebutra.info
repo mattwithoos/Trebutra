@@ -3,6 +3,7 @@ description = "Trello Bug Tracker connects Trello to a form on Drupal for issue 
 core = 7.x
 
 
-files[] = tagadelic.module
+files[] = trebutra.module
+files[] = trebutra.tpl.php
 
 configure = admin/config/content/trebutra

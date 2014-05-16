@@ -1,3 +1,57 @@
+<?php
+
+// checks if form was submitted
+$trello_key          = variable_get('trebutra_key');
+$trello_api_endpoint = variable_get('trebutra_apiend');
+$trello_list_id      = variable_get('trebutra_listid');
+$trello_member_token = variable_get('trebutra_token');
+
+if(isset($_POST['title'])) {
+
+	$v1 = $_POST['title'];
+	$v2 = $_POST['description'];
+	$v3 = $_POST['email'];
+	$v4 = $_POST['severity'];
+	$name = $v4." - ".$v1;
+	$description = "**Severity**: ".$v4."\n\n
+	**Description**: ".$v2."\n\n
+	**Submitted by**: ".$v3;
+
+	$ch = curl_init("$trello_api_endpoint/cards");
+	curl_setopt_array($ch, array(
+		CURLOPT_SSL_VERIFYPEER => false, // Probably won't work otherwise
+		CURLOPT_RETURNTRANSFER => true, // So we can get the URL of the newly-created card
+		CURLOPT_POST           => true,
+		CURLOPT_POSTFIELDS => http_build_query(array( // if you use an array without being wrapped in http_build_query, the Trello API server won't recognize your POST variables
+			'key'    => $trello_key,
+			'token'  => $trello_member_token,
+			'idList' => $trello_list_id,
+			'name'   => $name,
+			'desc'   => $description
+		)),
+	));
+	$result = curl_exec($ch);
+	$trello_card = json_decode($result);
+	$trello_card_url = $trello_card->url;
+
+	$msgcat = "The following bug report has been added to Trello - Collabco Development:\n\n".$trello_card_url."\n\n".$name."\n\n".$description;
+
+	$enableemail = variable_get('trebutra_key');
+	$reportemail = variable_get('trebutra_email');
+	if ($enableemail == "checked") {
+		$to      = $reportemail;
+		$subject = 'New bug report for Epic Collaboration';
+		$message = $msgcat;
+		$headers = 'From: '.$reportemail. "\r\n" .
+		    'Reply-To: '.$reportemail. "\r\n" .
+		    'X-Mailer: PHP/' . phpversion();
+		mail($to, $subject, $message, $headers);
+	}
+	echo "Thank you for making a submission. If necessary, we will contact you via email for more information.<br><br>";
+}
+
+?>
+
 <script type="text/javascript">
 function validateForm(){
 	var formName=document.fileabugform.subject.value;
@@ -25,8 +79,8 @@ function validateForm(){
 			  }
 			}
 </script>
-<div style="display:table; width:730px; margin:0px 22%; font-family: 'Lucida Grande',Arial,Helvetica,sans-serif,Tahoma; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; padding:30px; border:1px solid #BBB; box-shadow:0px 0px 3px #aaa; -moz-box-shadow:0px 0px 3px #aaa; -webkit-box-shadow:0px 0px 3px #aaa; background-color:#fff;">
-<form action="http://api.collabcoapp.com/trebutra/process.php" method="post" name="fileabugform" onsubmit="return validateForm()">
+<div style="display:table; width:730px; margin:0px; font-family: 'Lucida Grande',Arial,Helvetica,sans-serif,Tahoma; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; padding:30px; border:1px solid #BBB; box-shadow:0px 0px 3px #aaa; -moz-box-shadow:0px 0px 3px #aaa; -webkit-box-shadow:0px 0px 3px #aaa; background-color:#fff;">
+<form action="submit-bug" method="post" name="fileabugform" onsubmit="return validateForm()">
 <input name="id" type="hidden" value="ec" /><input name="fId" type="hidden" value="a7cadee0e7267bf09cac9ae9d926397623ca193a53051b7d" />
 <div style="width:100%; font: normal 12px 'Lucida Grande',Arial,Helvetica,sans-serif,Tahoma; color:#999;">
 <h2 style="color: #000; margin:3px 0;  font-size: 21px; font-weight: normal; height: 23px; padding-left: 3px; vertical-align:middle;">Submit Bug</h2>
