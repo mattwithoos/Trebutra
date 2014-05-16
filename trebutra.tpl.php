@@ -1,11 +1,11 @@
 <?php
 
-// checks if form was submitted
 $trello_key          = variable_get('trebutra_key');
 $trello_api_endpoint = variable_get('trebutra_apiend');
 $trello_list_id      = variable_get('trebutra_listid');
 $trello_member_token = variable_get('trebutra_token');
 
+// checks if form was submitted
 if(isset($_POST['title'])) {
 
 	$v1 = $_POST['title'];
