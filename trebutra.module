@@ -47,7 +47,7 @@ function trebutra_menu() {
   $items = array();
   $items['admin/config/content/trebutra'] = array(
     'title' => 'Trebutra',
-    'description' => 'Configuration for Trebutra (Trello Bug Tracker) module',
+    'description' => 'Configuration for Trebutra (Trello Bug Tracker) module.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('trebutra_form'),
     'access arguments' => array('access administration pages'),
